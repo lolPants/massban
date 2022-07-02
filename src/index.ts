@@ -1,6 +1,6 @@
+import { Preset, SingleBar } from 'cli-progress'
 import { Client, Intents } from 'discord.js'
 import process, { argv } from 'node:process'
-import { setTimeout } from 'node:timers/promises'
 import { env } from './env.js'
 import { resolveIDs } from './resolver.js'
 
@@ -22,13 +22,19 @@ const main = async () => {
   client.on('ready', async () => {
     const guild = await client.guilds.fetch(env.GUILD_ID)
 
+    const format: Preset = {
+      barCompleteChar: '=',
+      barIncompleteChar: '-',
+      format: '[{bar}] {percentage}% | ETA: {eta}s | {value}/{total} | {id}',
+    }
+
+    const bar = new SingleBar({}, format)
+    bar.start(ids.length, 0, { id: '' })
+
     /* eslint-disable no-await-in-loop */
     for (const id of ids) {
-      // FIXME
-      // await guild.members.ban(id, { reason: 'Automatic mass ban' })
-
-      console.log(`Banned ${id}`)
-      await setTimeout(500)
+      await guild.members.ban(id, { reason: 'Automatic mass ban' })
+      bar.increment({ id })
     }
     /* eslint-enable no-await-in-loop */
 
