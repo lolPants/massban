@@ -48,3 +48,6 @@ docs
 
 # VSCode
 .vscode
+
+# Output
+build/
