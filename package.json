@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@lolpants/env": "^0.5.0",
-    "axios": "^0.27.2"
+    "axios": "^0.27.2",
+    "discord.js": "^13.8.1"
   }
 }
